@@ -3,7 +3,7 @@ const { writeData } = require("./google-sheet");
 const cron = require("node-cron");
 
 const init = async (app) => {
-  cron.schedule("35 * * * *", () => {
+  cron.schedule("10 * * * *", () => {
     // run when the minute of each hour is 10
     try {
       writeData();
