@@ -4,6 +4,7 @@ const { google } = require("googleapis");
  * Writes data to our Google sheet
  */
 const writeData = async (res) => {
+
   const auth = new google.auth.GoogleAuth({
     keyFile: "token.json", //the key file
     //url to spreadsheets API
@@ -21,19 +22,6 @@ const writeData = async (res) => {
 
   // spreadsheet id
   const spreadsheetId = process.env.SPREADSHEETID;
-  let values = [
-    ["Chris", "Male", "1. Freshman", "FL", "Art", "Baseball"],
-    ["Chris", "Male", "1. Freshman", "FL", "Art", "Baseball"],
-    ["Chris", "Male", "1. Freshman", "FL", "Art", "Baseball"],
-    ["Chris", "Male", "1. Freshman", "FL", "Art", "Baseball"],
-    ["Chris", "Male", "1. Freshman", "FL", "Art", "Baseball"],
-    ["Chris", "Male", "1. Freshman", "FL", "Art", "Baseball"],
-    ["Chris", "Male", "1. Freshman", "FL", "Art", "Baseball"],
-    // Potential next row
-  ];
-  const resource = {
-    values,
-  };
   //write data into the google sheets
   googleSheetsInstance.spreadsheets.values.append(
     {
@@ -41,18 +29,16 @@ const writeData = async (res) => {
       spreadsheetId, //spreadsheet id
       range: process.env.SHEETNAME,
       valueInputOption: "RAW", // The information will be passed according to what the usere passes in as date, number or text
-      resource: resource,
+      resource: {
+        values: [["a", "b", "c"]],
+      },
     },
     (err, result) => {
       if (err) {
         // Handle error
-          res
-            .status(200)
-            .json(`update failed: ${err.message}`);
+        console.log(`update failed: ${err.message}`);
       } else {
-        return res
-          .status(200)
-          .json(` cells updated on:${result.data.updates.updatedRange}`);
+        console.log(` cells updated on:${result.data.updates.updatedRange}`);
       }
     }
   );
